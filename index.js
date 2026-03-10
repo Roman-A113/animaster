@@ -33,6 +33,12 @@ function animaster() {
             element.classList.add('show');
         },
 
+        fadeOut(element, duration) {
+            element.style.transitionDuration = `${duration}ms`;
+            element.classList.remove('show');
+            element.classList.add('hide');
+        },
+
         /**
          * Функция, передвигающая элемент
          * @param element — HTMLElement, который надо анимировать
