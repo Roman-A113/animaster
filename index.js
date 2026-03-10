@@ -16,7 +16,7 @@ function addListeners() {
     document.getElementById('movePlay')
         .addEventListener('click', function () {
             const block = document.getElementById('moveBlock');
-            animaster().move(block, 1000, { x: 100, y: 10 });
+            animaster().addMove(1000, { x: 100, y: 10 }).play(block);
         });
 
     document.getElementById('scalePlay')
@@ -67,9 +67,11 @@ function addListeners() {
 }
 
 function animaster() {
-
     const result = {
-        /**
+
+        _steps: [],
+
+            /**
          * Блок плавно появляется из прозрачного.
          * @param element — HTMLElement, который надо анимировать
          * @param duration — Продолжительность анимации в миллисекундах
@@ -95,6 +97,11 @@ function animaster() {
         move(element, duration, translation) {
             element.style.transitionDuration = `${duration}ms`;
             element.style.transform = getTransform(translation, null);
+        },
+
+        addMove(duration, translation) {
+            this._steps.push({ name: "move", duration: duration, args:  translation});
+            return this;
         },
 
         /**
@@ -153,7 +160,20 @@ function animaster() {
         resetMoveAndHide(element) {
             resetFadeOut(element);
             resetMoveAndScale(element);
-        }
+        },
+
+
+        play(element) {
+            function execute(element, name, duration, args) {
+                switch (name) {
+                    case 'move':
+                        this.move(element, duration, args);
+                        break;
+                }
+                setTimeout(() => {}, duration);
+            }
+            this._steps.forEach(step => execute.bind(this)(element, step.name, step.duration, step.args));
+        },
     }
 
     function resetFadeIn(element) {
