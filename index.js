@@ -7,6 +7,12 @@ function addListeners() {
             animaster().fadeIn(block, 5000);
         });
 
+    document.getElementById('fadeOutPlay')
+        .addEventListener('click', function () {
+            const block = document.getElementById('fadeOutBlock');
+            animaster().fadeOut(block, 5000);
+        });
+
     document.getElementById('movePlay')
         .addEventListener('click', function () {
             const block = document.getElementById('moveBlock');
