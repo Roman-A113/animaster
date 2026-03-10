@@ -45,7 +45,9 @@ function addListeners() {
 }
 
 function animaster() {
-    return {
+
+
+    const result = {
         /**
          * Блок плавно появляется из прозрачного.
          * @param element — HTMLElement, который надо анимировать
@@ -115,6 +117,23 @@ function animaster() {
             }, 1000);
         }
     }
+
+    function resetFadeIn(element) {
+        element.style.transitionDuration = null;
+        element.classList.remove('show');
+        element.classList.add('hide');
+    }
+    function resetFadeOut (element) {
+        element.style.transitionDuration = null;
+        element.classList.remove('hide');
+        element.classList.add('show');
+    }
+    function resetMoveAndScale(element) {
+        element.style.transitionDuration = null;
+        element.style.transform = null;
+    }
+
+    return result;
 }
 
 
