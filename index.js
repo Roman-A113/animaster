@@ -5,12 +5,13 @@ function addListeners() {
         .addEventListener('click', function () {
             const block = document.getElementById('fadeInBlock');
             animaster().fadeIn(block, 5000);
+            animaster().addFadeIn(5000).play(block);
         });
 
     document.getElementById('fadeOutPlay')
         .addEventListener('click', function () {
             const block = document.getElementById('fadeOutBlock');
-            animaster().fadeOut(block, 5000);
+            animaster().addFadeOut(5000).play(block);
         });
 
     document.getElementById('movePlay')
@@ -22,7 +23,7 @@ function addListeners() {
     document.getElementById('scalePlay')
         .addEventListener('click', function () {
             const block = document.getElementById('scaleBlock');
-            animaster().scale(block, 1000, 1.25);
+            animaster().addScale(1000, 1.25).play(block);
         });
 
     let stopMoveAndHide;
@@ -71,11 +72,11 @@ function animaster() {
 
         _steps: [],
 
-            /**
-         * Блок плавно появляется из прозрачного.
-         * @param element — HTMLElement, который надо анимировать
-         * @param duration — Продолжительность анимации в миллисекундах
-         */
+        /**
+     * Блок плавно появляется из прозрачного.
+     * @param element — HTMLElement, который надо анимировать
+     * @param duration — Продолжительность анимации в миллисекундах
+     */
         fadeIn(element, duration) {
             element.style.transitionDuration = `${duration}ms`;
             element.classList.remove('hide');
@@ -100,7 +101,22 @@ function animaster() {
         },
 
         addMove(duration, translation) {
-            this._steps.push({ name: "move", duration: duration, args:  translation});
+            this._steps.push({ name: "move", duration: duration, args: translation });
+            return this;
+        },
+
+        addScale(duration, ratio) {
+            this._steps.push({ name: "scale", duration: duration, args: ratio });
+            return this;
+        },
+
+        addFadeIn(duration) {
+            this._steps.push({ name: "fadeIn", duration: duration, args: null });
+            return this;
+        },
+
+        addFadeOut(duration) {
+            this._steps.push({ name: "fadeOut", duration: duration, args: null });
             return this;
         },
 
@@ -169,8 +185,17 @@ function animaster() {
                     case 'move':
                         this.move(element, duration, args);
                         break;
+                    case 'scale':
+                        this.scale(element, duration, args);
+                        break;
+                    case 'fadeIn':
+                        this.fadeIn(element, duration);
+                        break;
+                    case 'fadeOut':
+                        this.fadeOut(element, duration);
+                        break;
                 }
-                setTimeout(() => {}, duration);
+                setTimeout(() => { }, duration);
             }
             this._steps.forEach(step => execute.bind(this)(element, step.name, step.duration, step.args));
         },
