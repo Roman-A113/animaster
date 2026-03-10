@@ -10,7 +10,7 @@ function addListeners() {
     document.getElementById('movePlay')
         .addEventListener('click', function () {
             const block = document.getElementById('moveBlock');
-            move(block, 1000, {x: 100, y: 10});
+            move(block, 1000, { x: 100, y: 10 });
         });
 
     document.getElementById('scalePlay')
@@ -20,13 +20,17 @@ function addListeners() {
         });
 }
 
+function animaster() {
+
+}
+
 /**
  * Блок плавно появляется из прозрачного.
  * @param element — HTMLElement, который надо анимировать
  * @param duration — Продолжительность анимации в миллисекундах
  */
 function fadeIn(element, duration) {
-    element.style.transitionDuration =  `${duration}ms`;
+    element.style.transitionDuration = `${duration}ms`;
     element.classList.remove('hide');
     element.classList.add('show');
 }
@@ -49,7 +53,7 @@ function move(element, duration, translation) {
  * @param ratio — во сколько раз увеличить/уменьшить. Чтобы уменьшить, нужно передать значение меньше 1
  */
 function scale(element, duration, ratio) {
-    element.style.transitionDuration =  `${duration}ms`;
+    element.style.transitionDuration = `${duration}ms`;
     element.style.transform = getTransform(null, ratio);
 }
 
