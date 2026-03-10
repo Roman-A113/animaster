@@ -68,7 +68,6 @@ function addListeners() {
 
 function animaster() {
 
-    let isResetStarted = false;
     const result = {
         /**
          * Блок плавно появляется из прозрачного.
@@ -110,14 +109,11 @@ function animaster() {
         },
 
         moveAndHide(element, duration) {
-            isResetStarted = false;
             const stepDuration1 = duration * 2 / 5;
             const stepDuration2 = duration - stepDuration1;
             this.move(element, stepDuration1, { x: 100, y: 20 });
             let timerId = setTimeout(() => {
-                if (!isResetStarted) {
-                    this.fadeOut(element, stepDuration2);
-                }
+                this.fadeOut(element, stepDuration2);
             }, stepDuration1);
 
             return {
@@ -155,7 +151,6 @@ function animaster() {
         },
 
         resetMoveAndHide(element) {
-            isResetStarted = true;
             resetFadeOut(element);
             resetMoveAndScale(element);
         }
