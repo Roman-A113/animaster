@@ -65,6 +65,22 @@ function addListeners() {
             }
             stopHeartBeating.stop();
         });
+
+    document.getElementById('customPlay')
+        .addEventListener('click', function () {
+            console.log('clicked');
+            const block = document.getElementById('customBlock');
+            const customAnimation = animaster()
+                .addMove(200, {x: 40, y: 40})
+                .addScale(800, 1.3)
+                .addMove(200, {x: 80, y: 0})
+                .addScale(800, 1)
+                .addMove(200, {x: 40, y: -40})
+                .addScale(800, 0.7)
+                .addMove(200, {x: 0, y: 0})
+                .addScale(800, 1);
+            customAnimation.play(block);
+        });
 }
 
 function animaster() {
@@ -180,8 +196,10 @@ function animaster() {
 
 
         play(element) {
+            let s = 0
             function execute(element, name, duration, args) {
-                switch (name) {
+                setTimeout(() => {
+                    switch (name) {
                     case 'move':
                         this.move(element, duration, args);
                         break;
@@ -195,7 +213,8 @@ function animaster() {
                         this.fadeOut(element, duration);
                         break;
                 }
-                setTimeout(() => { }, duration);
+                }, s);
+                s += duration;
             }
             this._steps.forEach(step => execute.bind(this)(element, step.name, step.duration, step.args));
         },
